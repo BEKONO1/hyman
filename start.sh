@@ -63,11 +63,18 @@ if [ "$TABLE_EXISTS" = "no" ]; then
     if [ -f "database/sql/handyman_service.sql" ]; then
         echo "Importing SQL file ($(wc -l < database/sql/handyman_service.sql) lines)..."
         
+        # Create mysql options file to disable SSL
+        cat > /tmp/my.cnf << 'EOF'
+[client]
+ssl=0
+skip-ssl
+EOF
+        
         # Use environment variable for password to avoid special character issues
         export MYSQL_PWD="${DB_PASSWORD_VAL}"
         
-        # Import with SSL disabled
-        mysql -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" --ssl-mode=DISABLED "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql 2>&1 || echo "SQL import completed with some warnings."
+        # Import with SSL disabled via config file
+        mysql --defaults-file=/tmp/my.cnf -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql 2>&1 || echo "SQL import completed with some warnings."
         
         unset MYSQL_PWD
         echo "SQL import completed."
