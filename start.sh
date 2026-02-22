@@ -14,33 +14,33 @@ DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 APP_URL_VAL=${APP_URL:-https://hyman-production.up.railway.app}
 
 # Redis configuration - check if Redis variables exist
-if [ -n "$REDISHOST" ] || [ -n "$REDIS_HOST" ]; then
-    REDIS_HOST_VAL=${REDISHOST:-${REDIS_HOST:-127.0.0.1}}
-    REDIS_PORT_VAL=${REDISPORT:-${REDIS_PORT:-6379}}
-    REDIS_PASSWORD_VAL=${REDISPASSWORD:-${REDIS_PASSWORD:-}}
+# Railway sets REDISHOST, REDISPORT, REDISPASSWORD (no underscore in middle)
+if [ -n "$REDISHOST" ]; then
+    REDIS_HOST_VAL="$REDISHOST"
+    REDIS_PORT_VAL="${REDISPORT:-6379}"
+    REDIS_PASSWORD_VAL="${REDISPASSWORD:-}"
     CACHE_DRIVER_VAL="redis"
     SESSION_DRIVER_VAL="redis"
-    echo "Redis detected - using Redis for cache/session"
+    echo "Redis detected at ${REDIS_HOST_VAL}:${REDIS_PORT_VAL}"
 else
     CACHE_DRIVER_VAL="file"
     SESSION_DRIVER_VAL="file"
-    echo "No Redis detected - using file for cache/session"
+    echo "No Redis - using file cache"
 fi
 
 # Check if .env exists (meaning installation was already done)
 if [ -f ".env" ]; then
     echo "Updating existing .env file..."
     
-    # Update APP_URL and ASSET_URL in existing .env
+    # Update APP_URL and ASSET_URL
     sed -i "s|^APP_URL=.*|APP_URL=${APP_URL_VAL}|g" .env
     sed -i "s|^ASSET_URL=.*|ASSET_URL=${APP_URL_VAL}|g" .env
     
-    # Add ASSET_URL if it doesn't exist
     if ! grep -q "^ASSET_URL=" .env; then
         echo "ASSET_URL=${APP_URL_VAL}" >> .env
     fi
     
-    # Update database settings if needed
+    # Update database settings
     sed -i "s|^DB_HOST=.*|DB_HOST=${DB_HOST_VAL}|g" .env
     sed -i "s|^DB_PORT=.*|DB_PORT=${DB_PORT_VAL}|g" .env
     sed -i "s|^DB_DATABASE=.*|DB_DATABASE=${DB_DATABASE_VAL}|g" .env
@@ -51,12 +51,18 @@ if [ -f ".env" ]; then
     sed -i "s|^CACHE_DRIVER=.*|CACHE_DRIVER=${CACHE_DRIVER_VAL}|g" .env
     sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=${SESSION_DRIVER_VAL}|g" .env
     
-    # Remove Redis config if not available
-    if [ "$CACHE_DRIVER_VAL" = "file" ]; then
-        sed -i "/^REDIS_/d" .env
+    # Update or remove Redis config
+    sed -i "/^REDIS_HOST=/d" .env
+    sed -i "/^REDIS_PORT=/d" .env
+    sed -i "/^REDIS_PASSWORD=/d" .env
+    
+    if [ "$CACHE_DRIVER_VAL" = "redis" ]; then
+        echo "REDIS_HOST=${REDIS_HOST_VAL}" >> .env
+        echo "REDIS_PORT=${REDIS_PORT_VAL}" >> .env
+        [ -n "$REDIS_PASSWORD_VAL" ] && echo "REDIS_PASSWORD=${REDIS_PASSWORD_VAL}" >> .env
     fi
     
-    echo "APP_URL and ASSET_URL set to: ${APP_URL_VAL}"
+    echo "APP_URL: ${APP_URL_VAL}"
     echo "CACHE_DRIVER: ${CACHE_DRIVER_VAL}"
     echo "SESSION_DRIVER: ${SESSION_DRIVER_VAL}"
 else
@@ -85,14 +91,13 @@ SESSION_DRIVER=${SESSION_DRIVER_VAL}
 FILESYSTEM_DRIVER=public
 EOF
 
-    # Add Redis config if available
     if [ "$CACHE_DRIVER_VAL" = "redis" ]; then
         cat >> .env << EOF
 
 REDIS_HOST=${REDIS_HOST_VAL}
 REDIS_PORT=${REDIS_PORT_VAL}
-REDIS_PASSWORD=${REDIS_PASSWORD_VAL}
 EOF
+        [ -n "$REDIS_PASSWORD_VAL" ] && echo "REDIS_PASSWORD=${REDIS_PASSWORD_VAL}" >> .env
     fi
 fi
 
