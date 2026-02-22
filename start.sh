@@ -12,12 +12,16 @@ DB_DATABASE_VAL=${DB_DATABASE:-${MYSQLDATABASE:-railway}}
 DB_USERNAME_VAL=${DB_USERNAME:-${MYSQLUSER:-root}}
 DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 
+# Get APP_URL from Railway or use default
+APP_URL_VAL=${APP_URL:-https://hyman-production.up.railway.app}
+
 cat > .env << EOF
 APP_NAME="Handyman Service"
 APP_ENV=production
 APP_KEY=
 APP_DEBUG=false
-APP_URL=http://localhost
+APP_URL=${APP_URL_VAL}
+ASSET_URL=${APP_URL_VAL}
 LOG_CHANNEL=stderr
 LOG_LEVEL=error
 
