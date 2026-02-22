@@ -1,0 +1,8 @@
+div:where(.swal2-container).swal2-center>.swal2-popup {
+    flex-direction: column;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    background: var(--bs-gray-900) !important;
+    color: var(--bs-heading-color) !important;
+}

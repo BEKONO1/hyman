@@ -1,0 +1,25 @@
+.iq-footer {
+    margin-left: 0;
+    margin-right: 260px;
+}
+
+@media (min-width: 1300px) {
+    body.sidebar-main{
+        .iq-footer {
+            margin-left: 0;
+            margin-right: 120px;
+        }
+    }
+}
+
+@media (max-width: 1299px) {
+    .iq-footer {
+        margin-right: 0;
+    }
+
+    body.sidebar-main {
+        .iq-footer{
+            margin-right: 0;
+        }
+    }
+}

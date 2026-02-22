@@ -1,0 +1,18 @@
+//tab pane
+
+.tab-nav-pane{
+    li{
+        a{
+            color: var(--bs-text-muted);            
+        }
+        a{
+            &:hover{
+                color:var(--bs-primary);
+            }
+        }
+    }
+    li .active{
+        color:var(--bs-primary);
+        border-bottom: 4px solidvar(--bs-primary);
+    }
+}

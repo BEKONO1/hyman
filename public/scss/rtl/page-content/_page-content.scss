@@ -1,0 +1,28 @@
+.content-page {
+    margin-right: 260px;
+    margin-left: 0;
+}
+
+@media (min-width: 1300px) {
+    body.sidebar-main {
+        .content-page {
+            margin-right: 120px;
+            margin-left: 0;
+        }
+    } 
+}
+
+@media (max-width: 1299px) {
+    .content-page{
+        margin-right: 0;
+    }
+}
+
+@media(max-width:991px) {
+    .change-mod {
+        margin-left: 0.5rem;
+        .custom-control-inline {
+            margin-left: 0;
+        }        
+    }
+}

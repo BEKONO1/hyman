@@ -1,0 +1,34 @@
+.offcanvas {
+    .form-control {
+        background: var(--bs-body-bg);
+        &::placeholder {
+            color: var(--bs-body-color);
+        }
+        &:-moz-placeholder {
+            color: var(--bs-body-color);
+        }
+        &::-moz-placeholder {
+            color: var(--bs-body-color);
+        }
+
+    }
+    .select2-container--default .select2-selection--single {
+        background: var(--bs-body-bg) !important;
+    }
+    .select2-container--default .select2-selection--multiple {
+        background: var(--bs-body-bg) !important;
+    }
+    .filter-button {
+        color: var(--bs-body-color);
+        background: var(--bs-body-bg);
+        border-radius: 50px !important;
+        &:hover {
+            background: var(--bs-primary);
+            color: var(--bs-white);
+        }
+        &.active {
+            background: var(--bs-primary) !important;
+            color: var(--bs-white) !important;
+        }
+    }
+}

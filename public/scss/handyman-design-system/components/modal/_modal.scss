@@ -1,0 +1,31 @@
+.modal {
+    .btn-close{
+        &.custom-close {
+            background-color: var(--bs-primary);
+            background-image: none;
+            padding: 0;
+            height: 1.25rem;
+            width: 1.25rem;
+            color: var(--bs-white);
+            opacity: 1;
+            font-size: 0.75rem;
+        }
+    }
+}
+
+.export-type {
+    &.btn-group {
+        label {
+            &.btn:not(:disabled):not(.disabled).active{
+                background: var(--bs-primary);
+                color: var(--bs-white);
+            }
+        }
+
+        input {
+            &[type="radio"]{
+                display: none;
+            }
+        }
+    }
+}

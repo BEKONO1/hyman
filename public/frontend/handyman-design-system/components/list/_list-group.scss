@@ -1,0 +1,7 @@
+.list-group-item {
+    &.active {
+        a {
+            color: var(--bs-white);
+        }
+    }
+}

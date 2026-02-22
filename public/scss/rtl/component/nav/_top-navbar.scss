@@ -1,0 +1,81 @@
+.iq-top-navbar {
+    left: 0;
+    right: auto;
+
+    .iq-sub-dropdown {
+        right: auto;
+        left: 0;
+    }
+
+    .wrapper-menu {
+        margin: 0 0 0 15px;
+    }
+}
+
+.nav-item{
+    span.count-mail {
+        right: auto;
+        left: 0;
+    }
+}
+
+.notification_list {
+    span {
+        &.dots {
+            right: auto;
+            left: 9px;
+        }
+    }
+}
+
+.iq-sub-dropdown {
+    .notification_data {
+        .card-header {
+            .read-notify-box {
+                text-align: right;
+            }
+        }
+    
+        .card-body-list {
+            ul {
+                li {
+                    a {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+
+    .language-dropdown-menu {
+        ul {
+            li {
+                text-align: right;
+            }
+        }
+    }
+}
+
+.navbar-list {
+    float: left;
+    .user-name{
+        margin-left: 0;
+        margin-right: 0.625rem;
+    }
+
+    &>li {
+        float: right;
+        
+        &:last-child {
+            &>a {
+                padding-left: 0;
+                padding-right: 10px;
+            }
+        }
+    }
+}
+
+.change-mode {
+    margin-right: 0;
+    margin-left: 10px;
+}

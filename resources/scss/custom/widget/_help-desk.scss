@@ -1,0 +1,63 @@
+.btn-tab-desk {
+    padding: 10px 32px;
+    background: var(--bs-primary-bg-subtle);
+    border-radius: 26px;
+    border: 1px solid transparent;
+    &.active {
+        color: var(--bs-white);
+        background: var(--bs-primary);
+        border-color: var(--bs-primary);
+    }
+    &:hover {
+        color: var(--bs-white);
+        background: var(--bs-primary);
+        border-color: var(--bs-primary);
+    }
+}
+
+.helpdesk-card {
+    background: var(--bs-primary-bg-subtle);
+    padding: 20px;
+    .booking-date {
+        padding: 5px 12px;
+        border-radius: 0 6px 0 6px;
+    }
+}
+
+.helpdesk-accordion {
+    &.accordion{
+        .accordion-item{
+            margin-bottom: 45px;
+
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+
+        .accrodion-title {
+            .icon-accrodion {
+                position: static;
+                transform: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 767.98px) {
+    .helpdesk-accordion {
+        &.accordion{
+            .accrodion-title {
+                .icon-accrodion {
+                    position: static;
+                    transform: none;
+
+                    .toggle-message {
+                        .message {
+                            font-size: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

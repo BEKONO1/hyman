@@ -1,0 +1,43 @@
+.input-group{
+    .input-group-text{
+        border-right: 0;
+    }
+
+    .form-control{
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    &:focus-within{
+        .input-group-text{
+            border-color: var(--bs-primary);
+        }
+    }
+
+    &:has(.form-control) {
+        .input-group-text {
+            border-radius: var(--bs-border-radius);
+        }
+    }
+}
+
+textarea.form-control {
+    height: auto;
+}
+.card {
+    .datatable-filter {
+        select {
+            min-width: 7rem;
+        }
+    }
+}
+.iti{
+    .iti__flag-container{
+        .iti__country-list {
+            box-shadow: none;
+            background-color: var(--bs-gray-900);
+            border: 1px solid var(--bs-border-color);
+        }
+
+    }
+}

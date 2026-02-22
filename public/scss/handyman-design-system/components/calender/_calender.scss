@@ -1,0 +1,424 @@
+.fc-unthemed {
+	.fc-toolbar {
+		.fc-button {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border: none;
+			text-transform: capitalize;
+			@if $enable-rounded == true {
+				@include radius-mixin($border-radius);
+			}
+			&:active {
+				color: var(--bs-white);
+				background-color: var(--bs-primary);
+			}
+			&:focus {
+				color: var(--bs-white);
+				background-color: var(--bs-primary);
+			}
+		}
+		.fc-button.fc-button-active {
+			color: var(--bs-white);
+			background-color: var(--bs-primary);
+		}
+	}
+}
+.job-classification {
+	li {
+		list-style-type: none;
+		margin-bottom: 10px;
+		>i {
+			margin-right: 10px;
+			color: var(--bs-white);
+		}
+	}
+}
+.today-schedule {
+	li {
+		list-style-type: none;
+		margin-bottom: 10px;
+		i {
+			margin-right: 10px;
+			color: var(--bs-white);
+		}
+	}
+}
+.schedule-text {
+	span {
+		display: block;
+	}
+}
+.calender-small {
+	.flatpickr-calendar.animate.inline {
+		width: 100%;
+		box-shadow: none;
+	}
+	.dayContainer {
+		width: 100%;
+		min-width: auto;
+	}
+	.flatpickr-days {
+		width: 100%;
+	}
+	.flatpickr-day.today {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+		&:hover {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+		&:focus {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+	}
+	.flatpickr-months {
+		margin-bottom: 10px;
+		.flatpickr-prev-month {
+			padding: 7px 10px;
+		}
+		.flatpickr-next-month {
+			padding: 7px 10px;
+		}
+	}
+	.flatpickr-current-month {
+		.flatpickr-monthDropdown-months {
+			font-size: 12px;
+			&:hover {
+				background: transparent;
+				color: var(--bs-primary);
+			}
+		}
+		input.cur-year {
+			font-size: 12px;
+		}
+	}
+	.numInputWrapper {
+		&:hover {
+			background: transparent;
+		}
+	}
+	.flatpickr-day.selected {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.startRange {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.endRange {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			border-color: var(--bs-primary);
+			background: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.selected.inRange {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.inRange {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.inRange {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.selected.prevMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.prevMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.prevMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.selected.nextMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.nextMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.nextMonthDay {
+		color: var(--bs-white);
+		border-color: var(--bs-primary);
+		background: var(--bs-primary);
+	}
+	.flatpickr-day.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day.prevMonthDay.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day.nextMonthDay.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day.today.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day.prevMonthDay.today.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day.nextMonthDay.today.inRange {
+		background: var(--bs-primary-bg-subtle);
+		color: var(--bs-primary);
+		border-color: transparent;
+	}
+	.flatpickr-day {
+		&:hover {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+		&:focus {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+	}
+	.flatpickr-day.prevMonthDay {
+		&:hover {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+		&:focus {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+	}
+	.flatpickr-day.nextMonthDay {
+		&:hover {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+		&:focus {
+			background: var(--bs-primary-bg-subtle);
+			color: var(--bs-primary);
+			border-color: transparent;
+		}
+    }
+
+	.flatpickr-current-month {
+		.numInputWrapper {
+			width: 3ch;
+		}
+	}
+
+}
+.smaill-calender-home {
+	.flatpickr-calendar.animate.inline {
+		margin: 0 auto;
+		width: 100%;
+		box-shadow: none;
+		border: none;
+		@if $enable-rounded == true {
+		@include radius-mixin($border-radius);
+	}
+	}
+	.flatpickr-day.selected {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.startRange {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.endRange {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+		&:focus {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+		&:hover {
+			color: var(--bs-white);
+			text-decoration: none;
+			background: var(--bs-primary);
+			text-decoration: none;
+			border-color: var(--bs-primary);
+		}
+	}
+	.flatpickr-day.selected.inRange {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.inRange {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.inRange {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.selected.prevMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.prevMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.prevMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.selected.nextMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.startRange.nextMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-day.endRange.nextMonthDay {
+		color: var(--bs-white);
+		text-decoration: none;
+		background: var(--bs-primary);
+		text-decoration: none;
+		border-color: var(--bs-primary);
+	}
+	.flatpickr-days {
+		width: 100%;
+	}
+	.dayContainer {
+		width: 100%;
+	}
+	.flatpickr-innerContainer {
+		justify-content: space-around;
+	}
+}
+
+.fc-toolbar.fc-header-toolbar {
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+@media(max-width: 479px){
+	.fc-toolbar.fc-header-toolbar {
+		overflow-x: scroll;
+	}
+}

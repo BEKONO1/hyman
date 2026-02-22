@@ -1,0 +1,17 @@
+.jconfirm.jconfirm-material .jconfirm-box {
+    background-color: var(--bs-gray-900) !important;
+    box-shadow: var(--bs-box-shadow) !important;
+}
+
+.jconfirm.jconfirm-material .jconfirm-box div.jconfirm-title-c {
+    color: var(--bs-heading-color) !important;
+}
+
+.jconfirm.jconfirm-material .jconfirm-box div.jconfirm-content {
+    color: var(--bs-body-color) !important;
+}
+
+.jconfirm .jconfirm-box .jconfirm-buttons button.btn-default {
+    background: var(--bs-primary) !important;
+    color: var(--bs-white) !important;
+}

@@ -1,0 +1,32 @@
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: left;
+}
+.dataTables_paginate .pagination .paginate_button.next .page-link:before {
+    content: '\f053';
+}
+.dataTables_paginate .pagination .paginate_button.previous .page-link:before {
+    content: '\f054';
+}
+.table-responsive .dataTables_length label {
+    padding-left: 0;
+    padding-right: 0;
+}
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^=col-]:first-child {
+    padding-right: 0;
+}
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^=col-]:last-child {
+    padding-left: 0;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0;
+    margin-right: .5em;
+}
+
+table.dataTable > thead .sorting:before, table.dataTable > thead .sorting_asc:before, table.dataTable > thead .sorting_asc_disabled:before, table.dataTable > thead .sorting_desc:before, table.dataTable > thead .sorting_desc_disabled:before {
+    left: 0.6em;
+    right: auto;
+}
+table.dataTable > thead .sorting::after, table.dataTable > thead .sorting_asc::after, table.dataTable > thead .sorting_asc_disabled::after, table.dataTable > thead .sorting_desc::after, table.dataTable > thead .sorting_desc_disabled::after {
+    left: 1.5em;
+    right: auto;
+}

@@ -1,0 +1,23 @@
+[dir="rtl"] {
+    // custom
+    @import "./custom/bootstrap-rtl";
+
+    //components
+    @import "./component/dropdown/dropdown";
+    @import "./component/nav/top-navbar";
+    @import "./component/nav/nav";
+    @import "./component/sidebar/sidebar-default";
+    @import "./component/footer/footer";
+    @import "./component/list/list-group";
+    @import "./component/forms/input";
+    @import "./component/pagination/pagination";
+    @import "./component/modal/modal";
+
+    // page content
+    @import "./page-content/page-content";
+    @import "./page-content/dashboard-1";
+
+    // plugin
+    @import "./plugin/datatable";
+    @import "./plugin/chart";
+}

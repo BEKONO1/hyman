@@ -1,0 +1,20 @@
+@mixin box-shadow($shadow...) {
+  @if $enable-shadows {
+    // If the shadow is exactly 'none' and only one argument, apply it directly
+    @if length($shadow) == 1 and nth($shadow, 1) == none {
+      box-shadow: none;
+    } @else {
+      $result: ();
+
+      @each $value in $shadow {
+        @if $value != null and $value != none {
+          $result: append($result, $value, comma);
+        }
+      }
+
+      @if (length($result) > 0) {
+        box-shadow: $result;
+      }
+    }
+  }
+}

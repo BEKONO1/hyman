@@ -1,0 +1,20 @@
+.btn-group {
+  .btn {
+    &:not(:disabled):not(.disabled) {
+      cursor: pointer;
+
+      &:active,
+      &.active {
+        background: rgba($component-active-bg, 0.1);
+        color: $component-active-bg;
+      }
+    }
+  }
+}
+
+.language-btn {
+  &.btn-primary {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+  }
+}

@@ -1,0 +1,48 @@
+
+// **********************0** Auth pages
+.login-content {
+    height: 100vh;
+    position: relative;
+    z-index: 99;
+    .card {
+        margin-top: 30px;
+    }
+}
+.auth-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    img {
+        height: 60px;
+    }
+}
+// extra
+.line-around {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid var(--bs-light); 
+    line-height: 0.1em;
+    margin: 10px 0 20px; 
+    .line-around-1 { 
+        background:#fff; 
+        padding:0 10px; 
+    }
+ }
+
+ .social-btn {
+     .btn{
+         padding: 10px 30px;
+     }
+    .btn-outline-light:hover{
+        background-color: var(--bs-gray-900);
+    }
+ }
+
+.user-sidebar{
+    .user-profile{
+        .sideuser-info{
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+    }
+}

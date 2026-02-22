@@ -1,0 +1,102 @@
+.iq-qty-btn {
+    height: 54px;
+    border-radius: $input-border-radius;
+    background-color: $input-bg;
+    border: $input-border-width solid var(--bs-border-color);
+
+    .iq-quantity-plus,
+    .iq-quantity-minus {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0 12px;
+        color: var(--#{$variable-prefix}body-color);
+
+        &:hover{
+            color: var(--bs-headings-color);
+        }
+    }
+
+    .input-display {
+        background-color: var(--#{$variable-prefix}gray-200);
+        border: none;
+        outline: none;
+        width: 50px;
+        text-align: center;
+    }
+}
+
+.iq-status-switch {
+    .form-check-input {
+        &:checked {
+            border-color: var(--#{$variable-prefix}info);
+            background-color: var(--#{$variable-prefix}info);
+        }
+
+        &:not(:checked) {
+            border-color: var(--#{$variable-prefix}danger);
+            background-color: var(--#{$variable-prefix}danger);
+            background-image: escape-svg($form-switch-checked-bg-image),
+        }
+    }
+}
+
+.form-switch {
+    padding-left: $form-switch-padding-start;
+  
+    .form-check-input {
+      width: $form-switch-width;
+      margin-left: $form-switch-padding-start * -1;
+      background-image: escape-svg($form-switch-bg-image);
+      background-position: left center;
+      @include border-radius($form-switch-border-radius);
+      @include transition($form-switch-transition);
+  
+      &:focus {
+        background-image: escape-svg($form-switch-focus-bg-image);
+      }
+  
+      &:checked {
+        background-position: $form-switch-checked-bg-position;
+  
+        @if $enable-gradients {
+          background-image: escape-svg($form-switch-checked-bg-image), var(--#{$prefix}gradient);
+        } @else {
+          background-image: escape-svg($form-switch-checked-bg-image);
+        }
+      }
+    }
+  
+    &.form-check-reverse {
+      padding-right: $form-switch-padding-start;
+      padding-left: 0;
+  
+      .form-check-input {
+        margin-right: $form-switch-padding-start * -1;
+        margin-left: 0;
+      }
+    }
+}
+  
+.form-check-inline {
+    display: inline-block;
+    margin-right: $form-check-inline-margin-end;
+}
+  
+.btn-check {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+  
+    &[disabled],
+    &:disabled {
+      + .btn {
+        pointer-events: none;
+        filter: none;
+        opacity: $form-check-btn-check-disabled-opacity;
+      }
+    }
+}
+
+
+  

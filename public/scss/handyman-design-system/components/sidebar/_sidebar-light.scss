@@ -1,0 +1,101 @@
+body:not(.dark){
+    .sidebar-light{
+        background-color: var(--bs-light);
+        .sidebar-light-img{
+            display: block !important;
+        }
+        .light-logo{
+            display: none;
+        }
+         .iq-sidebar-menu{
+            .side-menu{
+                >li{
+                    &:hover {
+                        >.svg-icon {
+                            >i {
+                                >svg {
+                                    stroke: var(--bs-dark);
+                                }
+                            }
+                        }
+                    }
+                }
+                li{
+                    a{
+                        &:hover{
+                            background-color: rgba(var(--bs-primary),0.08);
+                            color:black;
+                        }
+                        
+                    }
+                } 
+            } 
+        }
+        .iq-sidebar-menu{
+            .side-menu{
+                >li{
+                    
+                    &.active{
+                        &>a{
+                            color: var(--bs-dark);
+                            text-decoration: none;
+                            background-color: rgba(var(--bs-primary),0.08);
+                        }
+                    }
+                    ul{
+                        a{
+                          &:hover{
+                            color:var(--bs-dark);
+                            text-decoration: none;
+                            background-color: rgba(var(--bs-primary),0.08);
+                          }  
+                        }
+                    }
+                }
+            }
+        }
+        .iq-sidebar-menu{
+            .submenu{
+                &>li{
+                    &:hover{
+                        >.svg-icon{
+                            &>i{
+                                &>svg{
+                                    stroke: var(--bs-dark);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+    
+        .iq-sidebar-menu {
+            .side-menu{
+                &>li.active{
+                    &>.svg-icon{
+                        &>i{
+                            &>svg{
+                                stroke: var(--bs-dark);
+                
+                            }
+                        }
+    
+                    }
+                }
+            }
+        }
+    
+        .iq-sidebar-logo{
+            a{
+                span{
+                    color:var(--bs-dark) !important;
+                }
+            }
+    
+        } 
+    }
+}
+
+
+
