@@ -1,0 +1,13 @@
+[phases.setup]
+
+nixPkgs = ["php82", "php82Extensions.openssl", "php82Extensions.pdo", "php82Extensions.pdo_mysql", "php82Extensions.mbstring", "php82Extensions.tokenizer", "php82Extensions.xml", "php82Extensions.curl", "php82Extensions.zip", "php82Extensions.bcmath", "php82Extensions.gd", "php82Extensions.intl", "php82Extensions.exif", "php82Extensions.fileinfo", "php82Extensions.redis"]
+
+aptPkgs = ["libpng-dev", "libjpeg-dev", "libfreetype6-dev", "libzip-dev", "libonig-dev", "default-mysql-client"]
+
+[variables]
+NODE_VERSION = "18"
+COMPOSER_MEMORY_LIMIT = "-1"
+COMPOSER_ALLOW_SUPERUSER = "1"
+
+[start]
+cmd = "chmod +x start.sh && ./start.sh"
