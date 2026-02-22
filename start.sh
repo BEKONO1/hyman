@@ -13,6 +13,15 @@ DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 # Get APP_URL from Railway or use default
 APP_URL_VAL=${APP_URL:-https://hyman-production.up.railway.app}
 
+# Redis configuration (if available)
+REDIS_HOST_VAL=${REDISHOST:-${REDIS_HOST:-127.0.0.1}}
+REDIS_PORT_VAL=${REDISPORT:-${REDIS_PORT:-6379}}
+REDIS_PASSWORD_VAL=${REDISPASSWORD:-${REDIS_PASSWORD:-null}}
+
+# Cache/Session drivers
+CACHE_DRIVER_VAL=${CACHE_DRIVER:-file}
+SESSION_DRIVER_VAL=${SESSION_DRIVER:-file}
+
 # Check if .env exists (meaning installation was already done)
 if [ -f ".env" ]; then
     echo "Updating existing .env file..."
@@ -33,7 +42,18 @@ if [ -f ".env" ]; then
     sed -i "s|^DB_USERNAME=.*|DB_USERNAME=${DB_USERNAME_VAL}|g" .env
     sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD_VAL}|g" .env
     
+    # Update Redis settings if Redis is available
+    sed -i "s|^REDIS_HOST=.*|REDIS_HOST=${REDIS_HOST_VAL}|g" .env
+    sed -i "s|^REDIS_PORT=.*|REDIS_PORT=${REDIS_PORT_VAL}|g" .env
+    sed -i "s|^REDIS_PASSWORD=.*|REDIS_PASSWORD=${REDIS_PASSWORD_VAL}|g" .env
+    
+    # Update cache/session drivers
+    sed -i "s|^CACHE_DRIVER=.*|CACHE_DRIVER=${CACHE_DRIVER_VAL}|g" .env
+    sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=${SESSION_DRIVER_VAL}|g" .env
+    
     echo "APP_URL and ASSET_URL set to: ${APP_URL_VAL}"
+    echo "CACHE_DRIVER: ${CACHE_DRIVER_VAL}"
+    echo "SESSION_DRIVER: ${SESSION_DRIVER_VAL}"
 else
     echo "Creating new .env file..."
     
@@ -54,10 +74,14 @@ DB_DATABASE=${DB_DATABASE_VAL}
 DB_USERNAME=${DB_USERNAME_VAL}
 DB_PASSWORD=${DB_PASSWORD_VAL}
 
-CACHE_DRIVER=file
+CACHE_DRIVER=${CACHE_DRIVER_VAL}
 QUEUE_CONNECTION=sync
-SESSION_DRIVER=file
+SESSION_DRIVER=${SESSION_DRIVER_VAL}
 FILESYSTEM_DRIVER=public
+
+REDIS_HOST=${REDIS_HOST_VAL}
+REDIS_PORT=${REDIS_PORT_VAL}
+REDIS_PASSWORD=${REDIS_PASSWORD_VAL}
 EOF
 fi
 
