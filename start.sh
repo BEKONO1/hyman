@@ -3,8 +3,28 @@ set -e
 
 echo "=== Railway Deployment Start ==="
 
-echo "Setting up environment..."
-cp .env.example .env
+echo "Creating .env file with Railway variables..."
+cat > .env << EOF
+APP_NAME="Handyman Service"
+APP_ENV=production
+APP_KEY=
+APP_DEBUG=false
+APP_URL=http://localhost
+LOG_CHANNEL=stderr
+LOG_LEVEL=error
+
+DB_CONNECTION=mysql
+DB_HOST=${MYSQLHOST}
+DB_PORT=${MYSQLPORT}
+DB_DATABASE=${MYSQLDATABASE}
+DB_USERNAME=${MYSQLUSER}
+DB_PASSWORD=${MYSQLPASSWORD}
+
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+FILESYSTEM_DRIVER=public
+EOF
 
 echo "Generating app key..."
 php artisan key:generate --force
@@ -33,7 +53,7 @@ if [ "$TABLE_EXISTS" = "no" ]; then
     echo "Database is empty. Importing SQL dump..."
     
     if [ -f "database/sql/handyman_service.sql" ]; then
-        mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} < database/sql/handyman_service.sql || true
+        mysql -h${MYSQLHOST} -P${MYSQLPORT} -u${MYSQLUSER} -p${MYSQLPASSWORD} ${MYSQLDATABASE} < database/sql/handyman_service.sql || true
         echo "SQL import completed."
     else
         echo "SQL file not found, running migrations..."
