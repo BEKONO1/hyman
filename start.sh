@@ -3,8 +3,6 @@ set -e
 
 echo "=== Railway Deployment Start ==="
 
-echo "Creating .env file with Railway variables..."
-
 # Use DB_ variables directly from Railway
 DB_HOST_VAL=${DB_HOST:-${MYSQLHOST:-mysql.railway.internal}}
 DB_PORT_VAL=${DB_PORT:-${MYSQLPORT:-3306}}
@@ -15,7 +13,31 @@ DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 # Get APP_URL from Railway or use default
 APP_URL_VAL=${APP_URL:-https://hyman-production.up.railway.app}
 
-cat > .env << EOF
+# Check if .env exists (meaning installation was already done)
+if [ -f ".env" ]; then
+    echo "Updating existing .env file..."
+    
+    # Update APP_URL and ASSET_URL in existing .env
+    sed -i "s|^APP_URL=.*|APP_URL=${APP_URL_VAL}|g" .env
+    sed -i "s|^ASSET_URL=.*|ASSET_URL=${APP_URL_VAL}|g" .env
+    
+    # Add ASSET_URL if it doesn't exist
+    if ! grep -q "^ASSET_URL=" .env; then
+        echo "ASSET_URL=${APP_URL_VAL}" >> .env
+    fi
+    
+    # Update database settings if needed
+    sed -i "s|^DB_HOST=.*|DB_HOST=${DB_HOST_VAL}|g" .env
+    sed -i "s|^DB_PORT=.*|DB_PORT=${DB_PORT_VAL}|g" .env
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=${DB_DATABASE_VAL}|g" .env
+    sed -i "s|^DB_USERNAME=.*|DB_USERNAME=${DB_USERNAME_VAL}|g" .env
+    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD_VAL}|g" .env
+    
+    echo "APP_URL and ASSET_URL set to: ${APP_URL_VAL}"
+else
+    echo "Creating new .env file..."
+    
+    cat > .env << EOF
 APP_NAME="Handyman Service"
 APP_ENV=production
 APP_KEY=
@@ -37,6 +59,7 @@ QUEUE_CONNECTION=sync
 SESSION_DRIVER=file
 FILESYSTEM_DRIVER=public
 EOF
+fi
 
 echo "Generating app key..."
 php artisan key:generate --force
@@ -90,6 +113,10 @@ else
     echo "Database already has data. Running migrations..."
     php artisan migrate --force --no-interaction || true
 fi
+
+echo "Clearing cache..."
+php artisan config:clear
+php artisan cache:clear
 
 echo "Caching config..."
 php artisan config:cache --no-interaction || true
