@@ -5,12 +5,12 @@ echo "=== Railway Deployment Start ==="
 
 echo "Creating .env file with Railway variables..."
 
-# Use DB_ variables directly from Railway (they are confirmed working)
-DB_HOST_VAL=${DB_HOST:-${MYSQLHOST}}
+# Use DB_ variables directly from Railway
+DB_HOST_VAL=${DB_HOST:-${MYSQLHOST:-mysql.railway.internal}}
 DB_PORT_VAL=${DB_PORT:-${MYSQLPORT:-3306}}
-DB_DATABASE_VAL=${DB_DATABASE:-${MYSQLDATABASE}}
-DB_USERNAME_VAL=${DB_USERNAME:-${MYSQLUSER}}
-DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD}}
+DB_DATABASE_VAL=${DB_DATABASE:-${MYSQLDATABASE:-railway}}
+DB_USERNAME_VAL=${DB_USERNAME:-${MYSQLUSER:-root}}
+DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 
 cat > .env << EOF
 APP_NAME="Handyman Service"
@@ -61,8 +61,8 @@ if [ "$TABLE_EXISTS" = "no" ]; then
     echo "Database is empty. Importing SQL dump..."
     
     if [ -f "database/sql/handyman_service.sql" ]; then
-        echo "Importing with: mysql -h${DB_HOST_VAL} -P${DB_PORT_VAL} -u${DB_USERNAME_VAL} ... ${DB_DATABASE_VAL}"
-        mysql -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" -p"${DB_PASSWORD_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql || true
+        echo "Importing SQL (ignoring SSL errors)..."
+        mysql --ssl-mode=DISABLED -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" -p"${DB_PASSWORD_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql || echo "SQL import had errors, continuing..."
         echo "SQL import completed."
     else
         echo "SQL file not found, running migrations..."
@@ -75,12 +75,6 @@ fi
 
 echo "Caching config..."
 php artisan config:cache --no-interaction || true
-
-echo "Caching routes..."
-php artisan route:cache --no-interaction || true
-
-echo "Caching views..."
-php artisan view:cache --no-interaction || true
 
 echo "=== Starting Server on port ${PORT:-8000} ==="
 php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
