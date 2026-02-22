@@ -3,6 +3,12 @@ set -e
 
 echo "=== Railway Deployment Start ==="
 
+echo "Setting up environment..."
+cp .env.example .env
+
+echo "Generating app key..."
+php artisan key:generate --force
+
 echo "Discovering packages..."
 php artisan package:discover --ansi || true
 
@@ -10,7 +16,15 @@ echo "Creating storage link..."
 php artisan storage:link || true
 
 echo "Waiting for database..."
-sleep 5
+sleep 10
+
+echo "Testing database connection..."
+until php artisan tinker --execute="DB::connection()->getPdo();" 2>/dev/null; do
+    echo "Waiting for database connection..."
+    sleep 2
+done
+
+echo "Database connected!"
 
 echo "Checking if database is empty..."
 TABLE_EXISTS=$(php artisan tinker --execute="echo Schema::hasTable('users') ? 'yes' : 'no';" 2>/dev/null || echo "no")
