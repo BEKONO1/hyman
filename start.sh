@@ -13,14 +13,19 @@ DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD:-}}
 # Get APP_URL from Railway or use default
 APP_URL_VAL=${APP_URL:-https://hyman-production.up.railway.app}
 
-# Redis configuration (if available)
-REDIS_HOST_VAL=${REDISHOST:-${REDIS_HOST:-127.0.0.1}}
-REDIS_PORT_VAL=${REDISPORT:-${REDIS_PORT:-6379}}
-REDIS_PASSWORD_VAL=${REDISPASSWORD:-${REDIS_PASSWORD:-null}}
-
-# Cache/Session drivers
-CACHE_DRIVER_VAL=${CACHE_DRIVER:-file}
-SESSION_DRIVER_VAL=${SESSION_DRIVER:-file}
+# Redis configuration - check if Redis variables exist
+if [ -n "$REDISHOST" ] || [ -n "$REDIS_HOST" ]; then
+    REDIS_HOST_VAL=${REDISHOST:-${REDIS_HOST:-127.0.0.1}}
+    REDIS_PORT_VAL=${REDISPORT:-${REDIS_PORT:-6379}}
+    REDIS_PASSWORD_VAL=${REDISPASSWORD:-${REDIS_PASSWORD:-}}
+    CACHE_DRIVER_VAL="redis"
+    SESSION_DRIVER_VAL="redis"
+    echo "Redis detected - using Redis for cache/session"
+else
+    CACHE_DRIVER_VAL="file"
+    SESSION_DRIVER_VAL="file"
+    echo "No Redis detected - using file for cache/session"
+fi
 
 # Check if .env exists (meaning installation was already done)
 if [ -f ".env" ]; then
@@ -42,14 +47,14 @@ if [ -f ".env" ]; then
     sed -i "s|^DB_USERNAME=.*|DB_USERNAME=${DB_USERNAME_VAL}|g" .env
     sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${DB_PASSWORD_VAL}|g" .env
     
-    # Update Redis settings if Redis is available
-    sed -i "s|^REDIS_HOST=.*|REDIS_HOST=${REDIS_HOST_VAL}|g" .env
-    sed -i "s|^REDIS_PORT=.*|REDIS_PORT=${REDIS_PORT_VAL}|g" .env
-    sed -i "s|^REDIS_PASSWORD=.*|REDIS_PASSWORD=${REDIS_PASSWORD_VAL}|g" .env
-    
     # Update cache/session drivers
     sed -i "s|^CACHE_DRIVER=.*|CACHE_DRIVER=${CACHE_DRIVER_VAL}|g" .env
     sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=${SESSION_DRIVER_VAL}|g" .env
+    
+    # Remove Redis config if not available
+    if [ "$CACHE_DRIVER_VAL" = "file" ]; then
+        sed -i "/^REDIS_/d" .env
+    fi
     
     echo "APP_URL and ASSET_URL set to: ${APP_URL_VAL}"
     echo "CACHE_DRIVER: ${CACHE_DRIVER_VAL}"
@@ -78,11 +83,17 @@ CACHE_DRIVER=${CACHE_DRIVER_VAL}
 QUEUE_CONNECTION=sync
 SESSION_DRIVER=${SESSION_DRIVER_VAL}
 FILESYSTEM_DRIVER=public
+EOF
+
+    # Add Redis config if available
+    if [ "$CACHE_DRIVER_VAL" = "redis" ]; then
+        cat >> .env << EOF
 
 REDIS_HOST=${REDIS_HOST_VAL}
 REDIS_PORT=${REDIS_PORT_VAL}
 REDIS_PASSWORD=${REDIS_PASSWORD_VAL}
 EOF
+    fi
 fi
 
 echo "Generating app key..."
@@ -105,42 +116,12 @@ done
 
 echo "Database connected!"
 
-echo "Checking if database is empty..."
-TABLE_EXISTS=$(php artisan tinker --execute="echo Schema::hasTable('users') ? 'yes' : 'no';" 2>/dev/null || echo "no")
-
-if [ "$TABLE_EXISTS" = "no" ]; then
-    echo "Database is empty. Importing SQL dump..."
-    
-    if [ -f "database/sql/handyman_service.sql" ]; then
-        echo "Importing SQL file ($(wc -l < database/sql/handyman_service.sql) lines)..."
-        
-        # Create mysql options file to disable SSL
-        cat > /tmp/my.cnf << 'EOF'
-[client]
-ssl=0
-skip-ssl
-EOF
-        
-        # Use environment variable for password to avoid special character issues
-        export MYSQL_PWD="${DB_PASSWORD_VAL}"
-        
-        # Import with SSL disabled via config file
-        mysql --defaults-file=/tmp/my.cnf -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql 2>&1 || echo "SQL import completed with some warnings."
-        
-        unset MYSQL_PWD
-        echo "SQL import completed."
-    else
-        echo "SQL file not found, running migrations..."
-        php artisan migrate --force --no-interaction
-    fi
-else
-    echo "Database already has data. Running migrations..."
-    php artisan migrate --force --no-interaction || true
-fi
+echo "Running migrations..."
+php artisan migrate --force --no-interaction || true
 
 echo "Clearing cache..."
-php artisan config:clear
-php artisan cache:clear
+php artisan config:clear 2>/dev/null || true
+php artisan cache:clear 2>/dev/null || true
 
 echo "Caching config..."
 php artisan config:cache --no-interaction || true
