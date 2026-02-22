@@ -61,16 +61,15 @@ if [ "$TABLE_EXISTS" = "no" ]; then
     echo "Database is empty. Importing SQL dump..."
     
     if [ -f "database/sql/handyman_service.sql" ]; then
-        echo "Importing SQL..."
-        # Create MySQL config file to disable SSL
-        mkdir -p /tmp
-        cat > /tmp/mysql.cnf << MYCNF
-[client]
-ssl-mode=DISABLED
-skip-ssl
-MYCNF
+        echo "Importing SQL file ($(wc -l < database/sql/handyman_service.sql) lines)..."
         
-        mysql --defaults-file=/tmp/mysql.cnf -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" -p"${DB_PASSWORD_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql 2>/dev/null || echo "SQL import had some errors, continuing..."
+        # Use environment variable for password to avoid special character issues
+        export MYSQL_PWD="${DB_PASSWORD_VAL}"
+        
+        # Import with SSL disabled
+        mysql -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" --ssl-mode=DISABLED "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql 2>&1 || echo "SQL import completed with some warnings."
+        
+        unset MYSQL_PWD
         echo "SQL import completed."
     else
         echo "SQL file not found, running migrations..."
