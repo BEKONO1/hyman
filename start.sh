@@ -3,6 +3,9 @@ set -e
 
 echo "=== Railway Deployment Start ==="
 
+echo "Discovering packages..."
+php artisan package:discover --ansi || true
+
 echo "Creating storage link..."
 php artisan storage:link || true
 
