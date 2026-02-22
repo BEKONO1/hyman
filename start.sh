@@ -36,5 +36,5 @@ php artisan route:cache --no-interaction || true
 echo "Caching views..."
 php artisan view:cache --no-interaction || true
 
-echo "=== Starting Apache Server ==="
-heroku-php-apache2 public/
+echo "=== Starting PHP Server ==="
+php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
