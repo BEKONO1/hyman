@@ -4,6 +4,14 @@ set -e
 echo "=== Railway Deployment Start ==="
 
 echo "Creating .env file with Railway variables..."
+
+# Use DB_ variables directly from Railway (they are confirmed working)
+DB_HOST_VAL=${DB_HOST:-${MYSQLHOST}}
+DB_PORT_VAL=${DB_PORT:-${MYSQLPORT:-3306}}
+DB_DATABASE_VAL=${DB_DATABASE:-${MYSQLDATABASE}}
+DB_USERNAME_VAL=${DB_USERNAME:-${MYSQLUSER}}
+DB_PASSWORD_VAL=${DB_PASSWORD:-${MYSQLPASSWORD}}
+
 cat > .env << EOF
 APP_NAME="Handyman Service"
 APP_ENV=production
@@ -14,11 +22,11 @@ LOG_CHANNEL=stderr
 LOG_LEVEL=error
 
 DB_CONNECTION=mysql
-DB_HOST=${MYSQLHOST}
-DB_PORT=${MYSQLPORT}
-DB_DATABASE=${MYSQLDATABASE}
-DB_USERNAME=${MYSQLUSER}
-DB_PASSWORD=${MYSQLPASSWORD}
+DB_HOST=${DB_HOST_VAL}
+DB_PORT=${DB_PORT_VAL}
+DB_DATABASE=${DB_DATABASE_VAL}
+DB_USERNAME=${DB_USERNAME_VAL}
+DB_PASSWORD=${DB_PASSWORD_VAL}
 
 CACHE_DRIVER=file
 QUEUE_CONNECTION=sync
@@ -53,7 +61,8 @@ if [ "$TABLE_EXISTS" = "no" ]; then
     echo "Database is empty. Importing SQL dump..."
     
     if [ -f "database/sql/handyman_service.sql" ]; then
-        mysql -h${MYSQLHOST} -P${MYSQLPORT} -u${MYSQLUSER} -p${MYSQLPASSWORD} ${MYSQLDATABASE} < database/sql/handyman_service.sql || true
+        echo "Importing with: mysql -h${DB_HOST_VAL} -P${DB_PORT_VAL} -u${DB_USERNAME_VAL} ... ${DB_DATABASE_VAL}"
+        mysql -h"${DB_HOST_VAL}" -P"${DB_PORT_VAL}" -u"${DB_USERNAME_VAL}" -p"${DB_PASSWORD_VAL}" "${DB_DATABASE_VAL}" < database/sql/handyman_service.sql || true
         echo "SQL import completed."
     else
         echo "SQL file not found, running migrations..."
